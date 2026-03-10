@@ -1,17 +1,14 @@
-from azure.ai.projects import AIProjectClient
-from azure.core.credentials import AzureKeyCredential
+from openai import AzureOpenAI
 import os
 
-myEndpoint = "https://eliasabdo718-1008-resource.services.ai.azure.com/api/projects/eliasabdo718-1008"
-
-project_client = AIProjectClient(
-    endpoint=myEndpoint,
-    credential=AzureKeyCredential(os.environ["AZURE_API_KEY"]),
+openai_client = AzureOpenAI(
+    api_key=os.environ["AZURE_API_KEY"],
+    azure_endpoint="https://eliasabdo718-1008-resource.services.ai.azure.com",
+    api_version="2025-01-01-preview",
 )
 
 myAgent = "Elias-language-Translator"
 myVersion = "3"
-openai_client = project_client.get_openai_client()
 
 def ask_agent(prompt):
     response = openai_client.responses.create(
