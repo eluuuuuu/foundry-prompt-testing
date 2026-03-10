@@ -16,7 +16,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install packages
-        run: pip install azure-ai-projects azure-core
+        run: run: pip install openai
 
       - name: Run translator test
         env:
