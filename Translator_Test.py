@@ -7,14 +7,10 @@ openai_client = AzureOpenAI(
     api_version="2025-03-01-preview",
 )
 
-myAgent = "Elias-language-Translator"
-myVersion = "3"
-
 def ask_agent(prompt):
     response = openai_client.responses.create(
         model="gpt-4.1",
         input=[{"role": "user", "content": prompt}],
-        extra_body={"agent": {"name": myAgent, "version": myVersion, "type": "agent"}},
     )
     return response.output_text
 
