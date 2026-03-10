@@ -4,7 +4,7 @@ import os
 openai_client = AzureOpenAI(
     api_key=os.environ["AZURE_API_KEY"],
     azure_endpoint="https://eliasabdo718-1008-resource.services.ai.azure.com",
-    api_version="2025-01-01-preview",
+    api_version="2025-03-01-preview",
 )
 
 myAgent = "Elias-language-Translator"
