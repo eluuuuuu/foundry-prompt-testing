@@ -7,7 +7,7 @@ load_dotenv()
 client = AzureOpenAI(
     api_key=os.environ["AZURE_API_KEY"],
     azure_endpoint=os.environ["AZURE_ENDPOINT"],
-    api_version="2025-03-01-preview",
+    api_version="2024-02-01",
 )
 
 def translate(sentence: str, language: str) -> str:
