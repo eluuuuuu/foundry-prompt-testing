@@ -1,23 +1,42 @@
 from openai import AzureOpenAI
+from dotenv import load_dotenv
 import os
 
-openai_client = AzureOpenAI(
+load_dotenv()
+
+client = AzureOpenAI(
     api_key=os.environ["AZURE_API_KEY"],
-    azure_endpoint="https://eliasabdo718-1008-resource.services.ai.azure.com",
+    azure_endpoint=os.environ["AZURE_ENDPOINT"],
     api_version="2025-03-01-preview",
 )
 
-def ask_agent(prompt):
-    response = openai_client.responses.create(
+def translate(sentence: str, language: str) -> str:
+    response = client.chat.completions.create(
         model="gpt-4.1",
-        input=[{"role": "user", "content": prompt}],
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a professional translator. "
+                    "Return only the translated text, no explanation, "
+                    "no quotation marks, no preamble."
+                )
+            },
+            {
+                "role": "user",
+                "content": f"Translate this to {language}: {sentence}"
+            }
+        ],
+        temperature=0.2,
     )
-    return response.output_text
+    return response.choices[0].message.content.strip()
 
-sentence = "Good morning, I hope you have a wonderful day"
-languages = ["French", "Spanish", "German", "Italian", "Arabic", "Japanese", "Portuguese"]
 
-for language in languages:
-    print(f"=== {language} ===")
-    print(ask_agent(f"Translate this to {language}: '{sentence}'"))
-    print()
+if __name__ == "__main__":
+    sentence = "Good morning, I hope you have a wonderful day"
+    languages = ["French", "Spanish", "German", "Italian", "Arabic", "Japanese", "Portuguese"]
+
+    for language in languages:
+        print(f"=== {language} ===")
+        print(translate(sentence, language))
+        print()

@@ -2,23 +2,29 @@ name: Test Foundry Translator Agent
 
 on:
   push:
-    branches: [master]
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install packages
-        run: pip install openai
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Run translator test
+      - name: Run tests
         env:
           AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
-        run: python Translator_Test.py
+          AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
+        run: pytest tests/ -v
+
+
